@@ -1,23 +1,48 @@
-60f7 734f26ffbe5f04ed43630fdc30a87638d53d0b0876 33 14 60ac 57
-60f6 73db33dfd3d61308c33c63209845dad3e6bfb2c674 33 14 60ac 57
-60f5 73c9107bd75a6971d9beaba390a28ab9bb30adc9bc 33 14 60ac 57
-60f4 7361bf84d5ab026f58c873f86ff0dfca82b55733ae 33 14 60ac 57
-60f3 73855be87fe5ddea2761dbd97f1a4e857aa00a15fd 33 14 60ac 57
-60f2 736ea073f4de9cd42955539033091ae587c06a882c 33 14 60ac 57
-5b 00  5b fe
-5b ## Jump to trigger if given `deadline, target, value, calldata...'
-   6020 36 11  60d7 57  ## Otherwise, assume an action hash was given
-   ## Abort if the confirmation flag of the caller was already set
-   6000 35  80 54  82 6002 0a  80 82 16  60a9 57
-   ## Set the confirmation flag and increment the confirmation counter
+6075 56                   # Go to `Auth' (kept at the end of the bytecode)
+
+   ###------------------------------------------------------------------
+5b ### Main: Start here if and when the membership check succeeds
+   ###------------------------------------------------------------------
+   36 6000 6000 37        # Copy all the calldata into memory
+   6020 36 11  6033 57    # Go to `Fire' if the calldata is many words
+   ## Abort if the confirmation flag of the caller was already set:
+   6000 35  80 54  82 6002 0a  80 82 16  6071 57
+   ## Set the confirmation flag and increment the confirmation counter:
    81 17  60ff 19 16  90 60ff 16  6001 01  17 90 55
-   610110 57  ## Skip to the logging part at the end
-5b ## Abort if the action to be triggered has too few confirmations
-   36 6000 6000 37  36 6000 20    6002    81 54 60ff 16  10  60a8 57
-   ## Abort if the current time is past the deadline of the action
-   6000 35  42 11  60a8 57
-   ## Otherwise, mark the action as triggered and perform the call
+   6066 56                # Go to `Note'
+
+   ###------------------------------------------------------------------
+5b ### Fire: When calldata is `deadline, target, value, calldata...'
+   ###------------------------------------------------------------------
+   ## Abort if the action has too few confirmations:
+   36 6000 20 60      02      81 54 60ff 16  10  6071 57
+   ## Abort if the current time is past the deadline of the action:
+   6000 35  42 11  6071 57
+   ## Otherwise, mark the action as triggered and perform the call:
    60ff 19 90 55  6000 6000 6060 36 03 6060 6040 35 6020 35 45 f1
-   15 60aa 57  ## Revert the transaction if the call did not succeed
-5b ## Log `target, caller, callvalue, timestamp', and the calldata
+   15 6073 57             # Revert the transaction if the call failed
+
+   ###------------------------------------------------------------------
+5b ### Note: Log `target, caller, callvalue, timestamp' and calldata
+   ###------------------------------------------------------------------
    36 6000 42 34 33 6020 35 a4
+
+   ###------------------------------------------------------------------
+5b ### Exit: Come here to stop the transaction
+   ###------------------------------------------------------------------
+   00
+
+   ###------------------------------------------------------------------
+5b ### Fail: Come here to revert the transaction
+   ###------------------------------------------------------------------
+   fe
+
+   ###------------------------------------------------------------------
+5b ### Auth: Verify membership, leave ID on the stack and go to `Main':
+   ###------------------------------------------------------------------
+   60 f7 73 4f26ffbe5f04ed43630fdc30a87638d53d0b0876 33 14 6003 57
+   60 f6 73 db33dfd3d61308c33c63209845dad3e6bfb2c674 33 14 6003 57
+   60 f5 73 c9107bd75a6971d9beaba390a28ab9bb30adc9bc 33 14 6003 57
+   60 f4 73 61bf84d5ab026f58c873f86ff0dfca82b50033ae 33 14 6003 57
+   60 f3 73 855be87fe5ddea2761dbd97f1a4e800aa00a15fd 33 14 6003 57
+   60 f2 73 6ea073f4de9cd42955539033091ae587c06a882c 33 14 6003 57
