@@ -20,7 +20,7 @@
    6000 35  42 11  6071 57
    ## Otherwise, mark the action as triggered and perform the call:
    60ff 19 90 55  6000 6000 6060 36 03 6060 6040 35 6020 35 45 f1
-   15 6073 57             # Revert the transaction if the call failed
+   15 6073 57             # Go to `Fail' if the call failed
 
    ###------------------------------------------------------------------
 5b ### Note: Log `target, caller, callvalue, timestamp' and calldata
