@@ -30,7 +30,7 @@
 ###------------------------------------------------------------------
 ### Auth template: This is copied to the end once for each member:
 ###------------------------------------------------------------------
-60f7 7f000000000000000000000000fffffffffffffffffffffffffffffffffffffff
+60f7 7f000000000000000000000000ffffffffffffffffffffffffffffffffffffffff
 33 14 6003 57
 
 ###------------------------------------------------------------------
