@@ -1,13 +1,13 @@
 ###---------------------------------------------------------------------
 ### Multisig factory constructor: Trivially return all the bytecode
 ###---------------------------------------------------------------------
-600d 38 03 600d 6000 39   # Copy the factory bytecode into memory
+600d 80 38 03 90 6000 39  # Copy the factory bytecode into memory
 59 6000 f3                # Return the factory bytecode
 
 ###---------------------------------------------------------------------
 ### Multisig factory: Called with `quorum, member, member, ...'
 ###---------------------------------------------------------------------
-606f 38 03 606f 6000 39   # Copy the bytecode template into memory
+606f 80 38 03 90 6000 39  # Copy the bytecode template into memory
 6000 35 6046 53           # Set the quorum to the first calldata word
 6020                      # Start the loop at the second calldata word
 
@@ -26,7 +26,6 @@
    ###------------------------------------------------------------------
    59 6000 6000 f0        # Create a contract from the bytecode in memory
    6000 52 6020 6000 f3   # Return the address of the new multisig
-   #60006000600060006000 59 6000 f3
 
 ###---------------------------------------------------------------------
 ### Auth template: This is copied to the end once for each member:
@@ -37,11 +36,11 @@
 ###---------------------------------------------------------------------
 ### Multisig constructor: Trivially return all the bytecode
 ###---------------------------------------------------------------------
-600d 38 03 600d 6000 39   # Copy the multisig bytecode into memory
+600d 80 38 03 90 6000 39  # Copy the multisig bytecode into memory
 59 6000 f3                # Return the multisig bytecode
 
 ###---------------------------------------------------------------------
-### Multisig: Called with an either action hash or a full action
+### Multisig: Called with either an action hash or a full action
 ###---------------------------------------------------------------------
 6075 56                   # Go to `Auth' (kept at the end of the bytecode)
 

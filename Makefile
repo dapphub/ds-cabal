@@ -1,2 +1,2 @@
-cabal.evmc: cabal.evm; sed 's/#.*//' $< | tr -d ' \n' > $@
+%.evmc: %.evm; sed 's/#.*//' $< | tr -d ' \n' >$@
 evmdis: cabal.evmc; evmdis < $<
