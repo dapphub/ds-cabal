@@ -1,24 +1,24 @@
-###------------------------------------------------------------------
+###---------------------------------------------------------------------
 ### Multisig factory constructor: Trivially return all the bytecode
-###------------------------------------------------------------------
+###---------------------------------------------------------------------
 600d 38 03 600d 6000 39   # Copy the factory bytecode into memory
 59 6000 f3                # Return the factory bytecode
 
-###------------------------------------------------------------------
+###---------------------------------------------------------------------
 ### Multisig factory: Called with `quorum, member, member, ...'
-###------------------------------------------------------------------
-606e 38 03 606e 6000 39   # Copy the bytecode template into memory
-6000 35 6039 52           # Set the quorum to the first calldata word
+###---------------------------------------------------------------------
+606f 38 03 606f 6000 39   # Copy the bytecode template into memory
+6000 35 6046 53           # Set the quorum to the first calldata word
 6020                      # Start the loop at the second calldata word
 
    ###------------------------------------------------------------------
 5b ### Add members: Append one `Auth' entry for each multisig member
    ###------------------------------------------------------------------
    80 36 11 15 6038 57    # Exit the loop when end of calldata reached
-   6027 6047 59 39        # Copy the auth template to the end of memory
-   60f8 81 6020 04 03     # Compute the member ID as `f7', `f6', ...
-   6025 59 03 53          # Fill in the member ID of the current entry
-   80 35 6023 59 03 52    # Fill in the address of the current entry
+   6028 6047 59 39        # Copy the auth template to the end of memory
+   6020 81 04 60f8 03     # Compute the member ID as `f7', `f6', ...
+   6027 59 03 53          # Fill in the member ID of the current entry
+   80 35 6025 59 03 52    # Fill in the address of the current entry
    6020 01 6011 56        # Move to the next word and continue the loop
 
    ###------------------------------------------------------------------
@@ -26,22 +26,23 @@
    ###------------------------------------------------------------------
    59 6000 6000 f0        # Create a contract from the bytecode in memory
    6000 52 6020 6000 f3   # Return the address of the new multisig
+   #60006000600060006000 59 6000 f3
 
-###------------------------------------------------------------------
+###---------------------------------------------------------------------
 ### Auth template: This is copied to the end once for each member:
-###------------------------------------------------------------------
+###---------------------------------------------------------------------
 60f7 7f000000000000000000000000ffffffffffffffffffffffffffffffffffffffff
 33 14 6003 57
 
-###------------------------------------------------------------------
+###---------------------------------------------------------------------
 ### Multisig constructor: Trivially return all the bytecode
-###------------------------------------------------------------------
+###---------------------------------------------------------------------
 600d 38 03 600d 6000 39   # Copy the multisig bytecode into memory
 59 6000 f3                # Return the multisig bytecode
 
-###------------------------------------------------------------------
+###---------------------------------------------------------------------
 ### Multisig: Called with an either action hash or a full action
-###------------------------------------------------------------------
+###---------------------------------------------------------------------
 6075 56                   # Go to `Auth' (kept at the end of the bytecode)
 
    ###------------------------------------------------------------------
